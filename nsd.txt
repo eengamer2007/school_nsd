@@ -1,3 +1,4 @@
 set var = 5
 set var = 5
 set var = 5
+loop
