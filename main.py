@@ -1,5 +1,5 @@
-from graphics import *
-import math
+import tkinter as tk
+from tkinter import font
 
 TEXT_OFFSET = 5
 BLOCK_OFFSET = 2
@@ -17,30 +17,28 @@ except FileNotFoundError:
 
 location = 0
 
-win = GraphWin("nsd",WIN_WIDTH,WIN_HEIGHT)
+win = tk.Tk()
+win.title = "nsd"
+canvas = tk.Canvas(height=WIN_HEIGHT,width=WIN_WIDTH, bg="white", bd=0)
 
+canvas.pack()
 
 def rect(width: int, pos: int, indent:int = 0):
-    p = Rectangle(
-        Point(BLOCK_OFFSET+indent*INDENT_SIZE,pos*BLOCK_HEIGHT+BLOCK_OFFSET),
-        #Point(width+BLOCK_OFFSET,pos*BLOCK_HEIGHT+BLOCK_OFFSET),
-        Point(width+BLOCK_OFFSET,pos*BLOCK_HEIGHT+BLOCK_HEIGHT+BLOCK_OFFSET),
-        #Point(BLOCK_OFFSET+indent*INDENT_SIZE,pos*BLOCK_HEIGHT+BLOCK_HEIGHT+BLOCK_OFFSET)
+    canvas.create_polygon(
+        BLOCK_OFFSET+indent*INDENT_SIZE, pos*BLOCK_HEIGHT+BLOCK_OFFSET,
+        width+BLOCK_OFFSET,pos*BLOCK_HEIGHT+BLOCK_OFFSET,
+        width+BLOCK_OFFSET,pos*BLOCK_HEIGHT+BLOCK_HEIGHT+BLOCK_OFFSET,
+        BLOCK_OFFSET+indent*INDENT_SIZE,pos*BLOCK_HEIGHT+BLOCK_HEIGHT+BLOCK_OFFSET,
+        fill="white", outline="black"
     )
-    p.draw(win)
 
 def draw(text: str, indent: int = 0):
     global location
     rect(BLOCK_WIDTH-indent*INDENT_SIZE,location)
-    t = Text(
-        Point(BLOCK_OFFSET+indent*INDENT_SIZE+TEXT_OFFSET,location*BLOCK_HEIGHT+BLOCK_OFFSET+TEXT_OFFSET),
-        text
+    canvas.create_text(
+        BLOCK_OFFSET + indent * INDENT_SIZE + TEXT_OFFSET, location * BLOCK_HEIGHT + BLOCK_OFFSET - TEXT_OFFSET,
+        text=text, anchor=tk.NW, font = font.Font(size=BLOCK_HEIGHT - (TEXT_OFFSET*2))
     )
-    size = BLOCK_HEIGHT-TEXT_OFFSET*2
-    if size > 36:
-        size = 36
-    t.setSize(size)
-    t.draw(win)
     location += 1
 
 
@@ -48,10 +46,9 @@ for i in f:
     match i.lower().strip().split():
         case ["set", var_name, "=", var_value]:
             print("set", var_name, var_value)
-            draw("set")
+            draw("set {} = {}".format(var_name,var_value))
         case _:
             print("unexpected command")
             exit()
 
-win.getMouse()
-win.close()
+win.mainloop()
