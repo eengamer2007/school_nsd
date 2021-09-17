@@ -21,7 +21,6 @@ win = GraphWin("nsd",WIN_WIDTH,WIN_HEIGHT)
 
 
 def rect(width: int, pos: int, indent:int = 0):
-    global win
     p = Rectangle(
         Point(BLOCK_OFFSET+indent*INDENT_SIZE,pos*BLOCK_HEIGHT+BLOCK_OFFSET),
         #Point(width+BLOCK_OFFSET,pos*BLOCK_HEIGHT+BLOCK_OFFSET),
@@ -32,7 +31,6 @@ def rect(width: int, pos: int, indent:int = 0):
 
 def draw(text: str, indent: int = 0):
     global location
-    global win
     rect(BLOCK_WIDTH-indent*INDENT_SIZE,location)
     t = Text(
         Point(BLOCK_OFFSET+indent*INDENT_SIZE+TEXT_OFFSET,location*BLOCK_HEIGHT+BLOCK_OFFSET+TEXT_OFFSET),
