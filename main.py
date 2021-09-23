@@ -40,8 +40,16 @@ def get_array_len(array) -> int:
             array_len += 1
     return array_len
 
-def if_stuf(if_arr,else_arr,indent):
+def if_stuf(statment, if_arr, else_arr, indent):
     usewidth = (BLOCK_WIDTH - indent * INDENT_SIZE) / 2
+    if_arr_len = get_array_len(if_arr)
+    else_arr_len = get_array_len(else_arr)
+    if if_arr_len >= else_arr_len:
+        length = if_arr_len
+    else:
+        length = else_arr_len
+    
+
 
 def stuf(array, indent):
     global location
@@ -60,25 +68,26 @@ def stuf(array, indent):
     )
     for i in array:
         if isinstance(i, list):
-            if i[0] == "loop":
-                canvas.create_text(
-                    BLOCK_OFFSET + indent * INDENT_SIZE + TEXT_OFFSET,
-                    BLOCK_OFFSET + BLOCK_HEIGHT * location + TEXT_OFFSET,
-                    text="loop", font = font.Font(size = -(BLOCK_HEIGHT - (TEXT_OFFSET * 2))),
-                    anchor=tk.NW
-                )
-                canvas.create_line(
-                    BLOCK_OFFSET + INDENT_SIZE * (indent + 1),
-                    BLOCK_OFFSET + (location + 1) * BLOCK_HEIGHT,
-                    BLOCK_OFFSET + BLOCK_WIDTH - (indent - 1) * INDENT_SIZE,
-                    BLOCK_OFFSET + BLOCK_HEIGHT * (location + 1),
-                )
-                location += 1
-                stuf(i[1:], indent + 1)
-            elif i[0] == "if":
-                if_stuf(i[1], i[2], indent)
-            else:
-                raise(KeyboardInterrupt)
+            match i[0]:
+                case "loop": 
+                    canvas.create_text(
+                        BLOCK_OFFSET + indent * INDENT_SIZE + TEXT_OFFSET,
+                        BLOCK_OFFSET + BLOCK_HEIGHT * location + TEXT_OFFSET,
+                        text="loop", font = font.Font(size = -(BLOCK_HEIGHT - (TEXT_OFFSET * 2))),
+                        anchor=tk.NW
+                    )
+                    canvas.create_line(
+                        BLOCK_OFFSET + INDENT_SIZE * (indent + 1),
+                        BLOCK_OFFSET + (location + 1) * BLOCK_HEIGHT,
+                        BLOCK_OFFSET + BLOCK_WIDTH - (indent - 1) * INDENT_SIZE,
+                        BLOCK_OFFSET + BLOCK_HEIGHT * (location + 1),
+                    )
+                    location += 1
+                    stuf(i[1:], indent + 1)
+                case "if":
+                    if_stuf(i[1], i[2], i[3], indent)
+                case _:
+                    raise(KeyboardInterrupt)
         else:
             rect(BLOCK_WIDTH,location,indent)
             location += 1
