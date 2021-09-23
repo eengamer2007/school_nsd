@@ -7,7 +7,7 @@ import nsd_parser
 TEXT_OFFSET = 5
 BLOCK_OFFSET = 2
 BLOCK_HEIGHT = 50
-BLOCK_WIDTH = 650
+BLOCK_WIDTH = 690
 WIN_WIDTH = 700
 WIN_HEIGHT = 650
 INDENT_SIZE = 30
@@ -84,6 +84,21 @@ def stuf(array, indent):
                     )
                     location += 1
                     stuf(i[1:], indent + 1)
+                case "for": 
+                    canvas.create_text(
+                        BLOCK_OFFSET + indent * INDENT_SIZE + TEXT_OFFSET,
+                        BLOCK_OFFSET + BLOCK_HEIGHT * location + TEXT_OFFSET,
+                        text="for " + i[1], font = font.Font(size = -(BLOCK_HEIGHT - (TEXT_OFFSET * 2))),
+                        anchor=tk.NW
+                    )
+                    canvas.create_line(
+                        BLOCK_OFFSET + INDENT_SIZE * (indent + 1),
+                        BLOCK_OFFSET + (location + 1) * BLOCK_HEIGHT,
+                        BLOCK_OFFSET + BLOCK_WIDTH - (indent - 1) * INDENT_SIZE,
+                        BLOCK_OFFSET + BLOCK_HEIGHT * (location + 1),
+                    )
+                    location += 1
+                    stuf(i[2:], indent + 1)
                 case "if":
                     if_stuf(i[1], i[2], i[3], indent)
                 case _:
