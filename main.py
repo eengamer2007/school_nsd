@@ -48,6 +48,7 @@ def if_stuf(statment, if_arr, else_arr, indent):
         length = if_arr_len
     else:
         length = else_arr_len
+    rect(BLOCK_WIDTH-indent*INDENT_SIZE, location, indent)
     
 
 

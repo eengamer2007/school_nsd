@@ -42,5 +42,5 @@ def nsd_parser_from_file(input_file):
                 pass
     f.close()
     '''
-    return ["hello", "hello", ["for", "a", ["loop", ["loop","cheese"], "cheese"], "hello", "hello"],["loop","cheese"]]
+    return ["hello", "hello",["if", "a", ["hello"],["bye"]], ["for", "a", ["loop", ["loop","cheese"], "cheese"], "hello", "hello"],["loop","cheese"]]
     #return commands_array
