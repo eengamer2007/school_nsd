@@ -9,17 +9,32 @@ BLOCK_OFFSET = 2
 BLOCK_HEIGHT = 50
 BLOCK_WIDTH = 690
 WIN_WIDTH = 700
-WIN_HEIGHT = 650
+WIN_HEIGHT = 1000
 INDENT_SIZE = 30
+
+win=tk.Tk()
+win.title = "nsd"
+frame=tk.Frame(win,width=WIN_WIDTH,height=300)
+frame.pack(expand=True, fill=tk.BOTH) #.grid(row=0,column=0)
+canvas=tk.Canvas(frame,bg='#FFFFFF',width=WIN_WIDTH,height=WIN_HEIGHT,scrollregion=(0,0,WIN_WIDTH,WIN_HEIGHT))
+hbar=tk.Scrollbar(frame,orient=tk.HORIZONTAL)
+hbar.pack(side=tk.BOTTOM,fill=tk.X)
+hbar.config(command=canvas.xview)
+vbar=tk.Scrollbar(frame,orient=tk.VERTICAL)
+vbar.pack(side=tk.RIGHT,fill=tk.Y)
+vbar.config(command=canvas.yview)
+canvas.config(width=300,height=300)
+canvas.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
+canvas.pack(side=tk.LEFT,expand=True,fill=tk.BOTH)
 
 location = 0
 
 # init tkinter window
-win = tk.Tk()
-win.title = "nsd"
+#win = tk.Tk()
 # make tkinter canvas and add to window
-canvas = tk.Canvas(height=WIN_HEIGHT,width=WIN_WIDTH, bg="white", bd=0)
-canvas.pack()
+#canvas = tk.Canvas(height=WIN_HEIGHT,width=WIN_WIDTH, bg="white", bd=0)
+#canvas = tk.Canvas(bg="white", bd=0)
+#canvas.pack()
 
 # draw rectangles
 def rect(width: int, pos: int, indent):
@@ -41,14 +56,25 @@ def get_array_len(array) -> int:
     return array_len
 
 def if_stuf(statment, if_arr, else_arr, indent):
-    usewidth = (BLOCK_WIDTH - indent * INDENT_SIZE) / 2
+    global location
+    usewidth = (BLOCK_WIDTH - (indent) * INDENT_SIZE) / 2
     if_arr_len = get_array_len(if_arr)
     else_arr_len = get_array_len(else_arr)
     if if_arr_len >= else_arr_len:
         length = if_arr_len
     else:
         length = else_arr_len
-    rect(BLOCK_WIDTH-indent*INDENT_SIZE, location, indent)
+    rect(BLOCK_WIDTH, location, indent)
+    canvas.create_line(
+        BLOCK_OFFSET + indent * INDENT_SIZE, location * BLOCK_HEIGHT + BLOCK_OFFSET,
+        usewidth + BLOCK_OFFSET + indent * INDENT_SIZE, (location + 1) * BLOCK_HEIGHT + BLOCK_OFFSET
+    )
+    canvas.create_line(
+        usewidth * 2 + BLOCK_OFFSET + indent * INDENT_SIZE, (location - 1) * BLOCK_HEIGHT + BLOCK_HEIGHT + BLOCK_OFFSET,
+        usewidth + BLOCK_OFFSET + indent * INDENT_SIZE, (location + 1) * BLOCK_HEIGHT + BLOCK_OFFSET
+    )
+    location += 1 + length
+    
     
 
 
