@@ -14,7 +14,8 @@ INDENT_SIZE = 30
 
 win=tk.Tk()
 win.title = "nsd"
-frame=tk.Frame(win,width=WIN_WIDTH,height=300)
+win.geometry("{}x{}".format(WIN_WIDTH + 20,500))
+frame=tk.Frame(win,width=WIN_WIDTH,height=500)
 frame.pack(expand=True, fill=tk.BOTH) #.grid(row=0,column=0)
 canvas=tk.Canvas(frame,bg='#FFFFFF',width=WIN_WIDTH,height=WIN_HEIGHT,scrollregion=(0,0,WIN_WIDTH,WIN_HEIGHT))
 hbar=tk.Scrollbar(frame,orient=tk.HORIZONTAL)
@@ -37,11 +38,11 @@ location = 0
 #canvas.pack()
 
 # draw rectangles
-def rect(width: int, pos: int, indent):
+def rect(width, pos, indent, indent_back = 0):
     canvas.create_polygon(
         BLOCK_OFFSET + indent * INDENT_SIZE, pos * BLOCK_HEIGHT + BLOCK_OFFSET,
-        width + BLOCK_OFFSET, pos * BLOCK_HEIGHT + BLOCK_OFFSET,
-        width + BLOCK_OFFSET, pos * BLOCK_HEIGHT + BLOCK_HEIGHT + BLOCK_OFFSET,
+        width + BLOCK_OFFSET - indent_back, pos * BLOCK_HEIGHT + BLOCK_OFFSET,
+        width + BLOCK_OFFSET - indent_back, pos * BLOCK_HEIGHT + BLOCK_HEIGHT + BLOCK_OFFSET,
         BLOCK_OFFSET + indent * INDENT_SIZE, pos * BLOCK_HEIGHT + BLOCK_HEIGHT + BLOCK_OFFSET,
         fill="white", outline="black"
     )
@@ -50,12 +51,15 @@ def get_array_len(array) -> int:
     array_len = 0
     for i in array:
         if isinstance(i, list):
-            array_len += get_array_len(i)
+            if i[0] == "for" or i[0] == "if":
+                array_len += get_array_len(i[1:])
+            else:
+                array_len += get_array_len(i)
         else:
             array_len += 1
     return array_len
 
-def if_stuf(statment, if_arr, else_arr, indent):
+def if_stuf(statment, if_arr, else_arr, indent, indent_back = 0):
     global location
     usewidth = (BLOCK_WIDTH - (indent) * INDENT_SIZE) / 2
     if_arr_len = get_array_len(if_arr)
@@ -64,7 +68,7 @@ def if_stuf(statment, if_arr, else_arr, indent):
         length = if_arr_len
     else:
         length = else_arr_len
-    rect(BLOCK_WIDTH, location, indent)
+    rect(BLOCK_WIDTH, location, indent, indent_back=indent_back)
     canvas.create_line(
         BLOCK_OFFSET + indent * INDENT_SIZE, location * BLOCK_HEIGHT + BLOCK_OFFSET,
         usewidth + BLOCK_OFFSET + indent * INDENT_SIZE, (location + 1) * BLOCK_HEIGHT + BLOCK_OFFSET
@@ -73,12 +77,17 @@ def if_stuf(statment, if_arr, else_arr, indent):
         usewidth * 2 + BLOCK_OFFSET + indent * INDENT_SIZE, (location - 1) * BLOCK_HEIGHT + BLOCK_HEIGHT + BLOCK_OFFSET,
         usewidth + BLOCK_OFFSET + indent * INDENT_SIZE, (location + 1) * BLOCK_HEIGHT + BLOCK_OFFSET
     )
+    canvas.create_text(
+        usewidth + BLOCK_OFFSET + indent * INDENT_SIZE, (location) * BLOCK_HEIGHT + BLOCK_OFFSET,
+        text = statment, font = font.Font(size = -(BLOCK_HEIGHT - (TEXT_OFFSET * 2))),
+        anchor= tk.N
+    )
     location += 1 + length
     
     
 
 
-def stuf(array, indent):
+def stuf(array, indent, indent_back = 0):
     global location
     array_len = get_array_len(array)
     canvas.create_line(
@@ -131,7 +140,7 @@ def stuf(array, indent):
                 case _:
                     raise(KeyboardInterrupt)
         else:
-            rect(BLOCK_WIDTH,location,indent)
+            rect(BLOCK_WIDTH,location,indent, indent_back=indent_back)
             location += 1
 
 def stuf_init(array):
