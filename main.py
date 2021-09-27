@@ -14,19 +14,21 @@ INDENT_SIZE = 30
 
 win=tk.Tk()
 win.title = "nsd"
-win.geometry("{}x{}".format(WIN_WIDTH + 20,500))
-frame=tk.Frame(win,width=WIN_WIDTH,height=500)
+win.geometry("{}x{}".format(WIN_WIDTH + 20,650))
+frame=tk.Frame(win, width=WIN_WIDTH, height=650)
 frame.pack(expand=True, fill=tk.BOTH) #.grid(row=0,column=0)
-canvas=tk.Canvas(frame,bg='#FFFFFF',width=WIN_WIDTH,height=WIN_HEIGHT,scrollregion=(0,0,WIN_WIDTH,WIN_HEIGHT))
-hbar=tk.Scrollbar(frame,orient=tk.HORIZONTAL)
-hbar.pack(side=tk.BOTTOM,fill=tk.X)
+canvas=tk.Canvas(frame, bg='#FFFFFF',
+    width=WIN_WIDTH, height=WIN_HEIGHT,
+    scrollregion=(0, 0, WIN_WIDTH, WIN_HEIGHT))
+hbar=tk.Scrollbar(frame, orient=tk.HORIZONTAL)
+hbar.pack(side=tk.BOTTOM, fill=tk.X)
 hbar.config(command=canvas.xview)
-vbar=tk.Scrollbar(frame,orient=tk.VERTICAL)
-vbar.pack(side=tk.RIGHT,fill=tk.Y)
+vbar=tk.Scrollbar(frame, orient=tk.VERTICAL)
+vbar.pack(side=tk.RIGHT, fill=tk.Y)
 vbar.config(command=canvas.yview)
-canvas.config(width=300,height=300)
+canvas.config(width=300, height=300)
 canvas.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
-canvas.pack(side=tk.LEFT,expand=True,fill=tk.BOTH)
+canvas.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 
 location = 0
 
@@ -38,12 +40,13 @@ location = 0
 #canvas.pack()
 
 # draw rectangles
-def rect(width, pos, indent, indent_back = 0):
+def rect(width, pos, indent, indent_back = 0, indent_front = 0):
     canvas.create_polygon(
-        BLOCK_OFFSET + indent * INDENT_SIZE, pos * BLOCK_HEIGHT + BLOCK_OFFSET,
+        BLOCK_OFFSET + indent * INDENT_SIZE + indent_front, pos * BLOCK_HEIGHT + BLOCK_OFFSET,
         width + BLOCK_OFFSET - indent_back, pos * BLOCK_HEIGHT + BLOCK_OFFSET,
         width + BLOCK_OFFSET - indent_back, pos * BLOCK_HEIGHT + BLOCK_HEIGHT + BLOCK_OFFSET,
-        BLOCK_OFFSET + indent * INDENT_SIZE, pos * BLOCK_HEIGHT + BLOCK_HEIGHT + BLOCK_OFFSET,
+        BLOCK_OFFSET + indent * INDENT_SIZE + indent_front,
+        pos * BLOCK_HEIGHT + BLOCK_HEIGHT + BLOCK_OFFSET,
         fill="white", outline="black"
     )
 
@@ -71,18 +74,25 @@ def if_stuf(statment, if_arr, else_arr, indent, indent_back = 0):
     rect(BLOCK_WIDTH, location, indent, indent_back=indent_back)
     canvas.create_line(
         BLOCK_OFFSET + indent * INDENT_SIZE, location * BLOCK_HEIGHT + BLOCK_OFFSET,
-        usewidth + BLOCK_OFFSET + indent * INDENT_SIZE, (location + 1) * BLOCK_HEIGHT + BLOCK_OFFSET
+        usewidth + BLOCK_OFFSET + indent * INDENT_SIZE,
+        (location + 1) * BLOCK_HEIGHT + BLOCK_OFFSET
     )
     canvas.create_line(
-        usewidth * 2 + BLOCK_OFFSET + indent * INDENT_SIZE, (location - 1) * BLOCK_HEIGHT + BLOCK_HEIGHT + BLOCK_OFFSET,
-        usewidth + BLOCK_OFFSET + indent * INDENT_SIZE, (location + 1) * BLOCK_HEIGHT + BLOCK_OFFSET
+        usewidth * 2 + BLOCK_OFFSET + indent * INDENT_SIZE,
+        (location - 1) * BLOCK_HEIGHT + BLOCK_HEIGHT + BLOCK_OFFSET,
+        usewidth + BLOCK_OFFSET + indent * INDENT_SIZE,
+        (location + 1) * BLOCK_HEIGHT + BLOCK_OFFSET
     )
     canvas.create_text(
         usewidth + BLOCK_OFFSET + indent * INDENT_SIZE, (location) * BLOCK_HEIGHT + BLOCK_OFFSET,
         text = statment, font = font.Font(size = -(BLOCK_HEIGHT - (TEXT_OFFSET * 2))),
         anchor= tk.N
     )
-    location += 1 + length
+    location += 1
+    for i in range(length):
+        rect(BLOCK_WIDTH, location, indent, indent_back=indent_back, indent_front=usewidth)
+        rect(BLOCK_WIDTH, location, indent, indent_back=indent_back+usewidth)
+        location += 1
     
     
 
