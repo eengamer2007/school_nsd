@@ -43,13 +43,6 @@ canvas.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 
 location = 0
 
-# init tkinter window
-#win = tk.Tk()
-# make tkinter canvas and add to window
-#canvas = tk.Canvas(height=WIN_HEIGHT,width=WIN_WIDTH, bg="white", bd=0)
-#canvas = tk.Canvas(bg="white", bd=0)
-#canvas.pack()
-
 # draw rectangles
 def rect(width, pos, indent, indent_back = 0, indent_front = 0):
     canvas.create_polygon(
