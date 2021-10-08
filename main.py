@@ -142,12 +142,6 @@ def stuf(array, indent, indent_back = 0):
                         text="loop", font = font.Font(size = -(BLOCK_HEIGHT - (TEXT_OFFSET * 2))),
                         anchor=tk.NW
                     )
-                    canvas.create_line(
-                        BLOCK_OFFSET + INDENT_SIZE * (indent + 1),
-                        BLOCK_OFFSET + (location + 1) * BLOCK_HEIGHT,
-                        BLOCK_OFFSET + BLOCK_WIDTH - (indent - 1) * INDENT_SIZE,
-                        BLOCK_OFFSET + BLOCK_HEIGHT * (location + 1),
-                    )
                     location += 1
                     stuf(i[1:], indent + 1)
                 case "for": 
