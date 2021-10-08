@@ -2,11 +2,16 @@ def nsd_parser_from_file(input_file):
     '''
     # open file and it if it doesn't extist handle the error
     try:
+        print(input_file[-3:len(input_file)])
+        if not input_file[-3:len(input_file)] in ["txt"]:
+            print("file not a supported file type")
+            exit()
         f = open(input_file)
     except FileNotFoundError:
         print("file: {} not found".format(input_file))
         exit()
 
+    '''
     commands_array = []
 
     #cheching if the command given is a loop, for-loop, end, if, else,endif

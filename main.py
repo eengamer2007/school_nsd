@@ -2,6 +2,16 @@
 import tkinter as tk
 from tkinter import font
 import nsd_parser
+import sys
+
+#get input file name
+try:
+    input_file = sys.argv[1]
+    print("input file: " + input_file)
+except IndexError:
+    #default if no file is given
+    print("no input file given\nusing default: nsd.txt")
+    input_file = "nsd.txt"
 
 # imporant variables
 TEXT_OFFSET = 5
@@ -173,7 +183,7 @@ def stuf_init(array):
     )
     stuf(array, 0)
 
-parsed = nsd_parser.nsd_parser_from_file("nsd.txt")
+parsed = nsd_parser.nsd_parser_from_file(input_file)
 print(parsed)
 stuf_init(parsed)
 
