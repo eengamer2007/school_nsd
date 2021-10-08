@@ -76,7 +76,7 @@ def get_array_len(array) -> int:
     return array_len
 
 #drawing the block in an if statement
-def if_standart_pass(statment, if_arr, else_arr, indent, indent_back = 0):
+def if_pass(statment, if_arr, else_arr, indent, indent_back = 0):
     global location
     usewidth = (BLOCK_WIDTH - (indent) * INDENT_SIZE) / 2
     if_arr_len = get_array_len(if_arr)
