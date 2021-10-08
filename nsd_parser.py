@@ -1,5 +1,4 @@
 def nsd_parser_from_file(input_file):
-    '''
     # open file and it if it doesn't extist handle the error
     try:
         print(input_file[-3:len(input_file)])
@@ -10,7 +9,7 @@ def nsd_parser_from_file(input_file):
     except FileNotFoundError:
         print("file: {} not found".format(input_file))
         exit()
-
+    
     '''
     commands_array = []
 
