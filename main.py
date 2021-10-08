@@ -50,6 +50,8 @@ def rect(width, pos, indent, indent_back = 0, indent_front = 0):
         fill="white", outline="black"
     )
 
+
+#get the length of the array including sub arrays
 def get_array_len(array) -> int:
     array_len = 0
     for i in array:
