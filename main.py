@@ -22,11 +22,12 @@ WIN_WIDTH = 700
 WIN_HEIGHT = 1000
 INDENT_SIZE = 30
 
+#make tkinter window, add canvas, make scroll bars
 win=tk.Tk()
 win.title = "nsd"
 win.geometry("{}x{}".format(WIN_WIDTH + 20,650))
 frame=tk.Frame(win, width=WIN_WIDTH, height=650)
-frame.pack(expand=True, fill=tk.BOTH) #.grid(row=0,column=0)
+frame.pack(expand=True, fill=tk.BOTH)
 canvas=tk.Canvas(frame, bg='#FFFFFF',
     width=WIN_WIDTH, height=WIN_HEIGHT,
     scrollregion=(0, 0, WIN_WIDTH, WIN_HEIGHT))
@@ -60,7 +61,6 @@ def rect(width, pos, indent, indent_back = 0, indent_front = 0):
         fill="white", outline="black"
     )
 
-
 #get the length of the array including sub arrays
 def get_array_len(array) -> int:
     array_len = 0
@@ -82,6 +82,7 @@ def get_array_len(array) -> int:
             array_len += 1
     return array_len
 
+#drawing the block in an if statement
 def if_stuf(statment, if_arr, else_arr, indent, indent_back = 0):
     global location
     usewidth = (BLOCK_WIDTH - (indent) * INDENT_SIZE) / 2
@@ -114,9 +115,7 @@ def if_stuf(statment, if_arr, else_arr, indent, indent_back = 0):
         rect(BLOCK_WIDTH, location, indent, indent_back=indent_back+usewidth)
         location += 1
     
-    
-
-
+#drawing the blocks 
 def stuf(array, indent, indent_back = 0):
     global location
     array_len = get_array_len(array)
@@ -167,6 +166,7 @@ def stuf(array, indent, indent_back = 0):
             rect(BLOCK_WIDTH,location,indent, indent_back=indent_back)
             location += 1
 
+#start the block drawing
 def stuf_init(array):
     array_len = get_array_len(array)
     canvas.create_line(
