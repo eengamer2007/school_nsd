@@ -56,8 +56,16 @@ def get_array_len(array) -> int:
     array_len = 0
     for i in array:
         if isinstance(i, list):
-            if i[0] == "for" or i[0] == "if":
-                array_len += get_array_len(i[1:])
+            if i[0] == "for":
+                array_len += get_array_len(i[1:]) + 1
+            elif i[0] == "if":
+                array_len += 1
+                array_len_1 = get_array_len(i[1])
+                array_len_2 = get_array_len(i[2])
+                if array_len_1 > array_len_2:
+                    array_len += array_len_1
+                else:
+                    array_len += array_len_2
             else:
                 array_len += get_array_len(i)
         else:
