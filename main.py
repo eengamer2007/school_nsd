@@ -76,7 +76,7 @@ def get_array_len(array) -> int:
     return array_len
 
 #drawing the block in an if statement
-def if_stuf(statment, if_arr, else_arr, indent, indent_back = 0):
+def if_standart_pass(statment, if_arr, else_arr, indent, indent_back = 0):
     global location
     usewidth = (BLOCK_WIDTH - (indent) * INDENT_SIZE) / 2
     if_arr_len = get_array_len(if_arr)
@@ -109,7 +109,7 @@ def if_stuf(statment, if_arr, else_arr, indent, indent_back = 0):
         location += 1
     
 #drawing the blocks 
-def stuf(array, indent, indent_back = 0):
+def standart_pass(array, indent, indent_back = 0):
     global location
     array_len = get_array_len(array)
     canvas.create_line(
@@ -135,7 +135,7 @@ def stuf(array, indent, indent_back = 0):
                         anchor=tk.NW
                     )
                     location += 1
-                    stuf(i[1:], indent + 1)
+                    standart_pass(i[1:], indent + 1)
                 case "for": 
                     canvas.create_text(
                         BLOCK_OFFSET + indent * INDENT_SIZE + TEXT_OFFSET,
@@ -150,9 +150,9 @@ def stuf(array, indent, indent_back = 0):
                         BLOCK_OFFSET + BLOCK_HEIGHT * (location + 1),
                     )
                     location += 1
-                    stuf(i[2:], indent + 1)
+                    standart_pass(i[2:], indent + 1)
                 case "if":
-                    if_stuf(i[1], i[2], i[3], indent)
+                    if_standart_pass(i[1], i[2], i[3], indent)
                 case _:
                     raise(KeyboardInterrupt)
         else:
@@ -160,7 +160,7 @@ def stuf(array, indent, indent_back = 0):
             location += 1
 
 #start the block drawing
-def stuf_init(array):
+def first_pass(array):
     array_len = get_array_len(array)
     canvas.create_line(
         BLOCK_OFFSET + BLOCK_WIDTH,
@@ -168,10 +168,10 @@ def stuf_init(array):
         BLOCK_OFFSET + BLOCK_WIDTH,
         BLOCK_OFFSET + BLOCK_HEIGHT * (array_len + location),
     )
-    stuf(array, 0)
+    standart_pass(array, 0)
 
 parsed = nsd_parser.nsd_parser_from_file(input_file)
 print(parsed)
-stuf_init(parsed)
+first_pass(parsed)
 
 win.mainloop()
