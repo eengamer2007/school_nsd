@@ -205,4 +205,12 @@ parsed = nsd_parser.nsd_parser_from_file(input_file)
 print(parsed)
 first_pass(parsed)
 
+#doesn't work
+'''
+canvas.postscript(file="nsd.eps")
+from PIL import Image
+img = Image.open("nsd.eps")
+img.save("nsd.png", "png")
+'''
+
 win.mainloop()
