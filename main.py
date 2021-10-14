@@ -154,6 +154,15 @@ def standart_pass(array, indent, indent_back = 0, last = None):
                     )
                     location += 1
                     standart_pass(i[1:], indent + 1)
+                case "while": 
+                    canvas.create_text(
+                        BLOCK_OFFSET + indent * INDENT_SIZE + TEXT_OFFSET,
+                        BLOCK_OFFSET + BLOCK_HEIGHT * location + TEXT_OFFSET,
+                        text="while "+i[1], font = font.Font(size = -(BLOCK_HEIGHT - (TEXT_OFFSET * 2))),
+                        anchor=tk.NW
+                    )
+                    location += 1
+                    standart_pass(i[2:], indent + 1)
                 case "for": 
                     canvas.create_text(
                         BLOCK_OFFSET + indent * INDENT_SIZE + TEXT_OFFSET,
