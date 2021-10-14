@@ -2,10 +2,16 @@ if a
 stuf
 else
 stuf
-endif
+end
+else
 loop 
 hello
 end
+
+while a
+chees
+end
+
 for a
 for a
 hello
