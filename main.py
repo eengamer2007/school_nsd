@@ -181,7 +181,7 @@ def standart_pass(array, indent, indent_back = 0, indent_front = 0, last = None)
                     canvas.create_line(
                         BLOCK_OFFSET + INDENT_SIZE * (indent),
                         BLOCK_OFFSET + (location + get_array_len(i)) * BLOCK_HEIGHT,
-                        BLOCK_OFFSET + BLOCK_WIDTH - (indent) * INDENT_SIZE,
+                        BLOCK_OFFSET + BLOCK_WIDTH,
                         BLOCK_OFFSET + BLOCK_HEIGHT * (location + get_array_len(i))
                     )
                     location += 1
@@ -190,10 +190,8 @@ def standart_pass(array, indent, indent_back = 0, indent_front = 0, last = None)
                 case "if":
                     if_pass(i[1], i[2], i[3], indent)
                     else_skip = 1
-                case x:
-                    print(x)
-                    if not else_skip:
-                        raise(KeyboardInterrupt)
+                case _:
+                    raise(KeyboardInterrupt)
         else:
             rect(BLOCK_WIDTH,location,indent, indent_back=indent_back)
             canvas.create_text(
