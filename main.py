@@ -2,7 +2,7 @@
 import tkinter as tk
 from tkinter import font
 import nsd_parser
-import sys
+import sys, os
 
 #get input file name, handeling if file exist happens in nsd_parser.py
 try:
@@ -218,9 +218,11 @@ first_pass(parsed)
 def to_png():
     print("made picture")
     canvas.postscript(file="nsd.ps")
-    from PIL import Image
-    img = Image.open("nsd.ps")
-    img.save("nsd.png", "png")
+    os.system("gswin32 -sDevice=png16m -sOutputFile=nsd.png nsd.ps")
 
-win.after(10000, to_png)
+    #from PIL import Image
+    #img = Image.open("nsd.ps")
+    #img.save("nsd.png", "png")
+
+win.after(1000, to_png)
 win.mainloop()
