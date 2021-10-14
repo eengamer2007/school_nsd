@@ -88,8 +88,10 @@ def nsd_pass(arr, out_arr):
                 stat_str = ""
                 for i in statement:
                     stat_str += i
-                out = nsd_pass(arr,["for",stat_str])
-                out_arr.append(out)
+                out = nsd_pass(arr,[])
+                for_arr = ["for",stat_str]
+                for_arr.append(out)
+                out_arr.append(for_arr)
             case ["if", *statement]:
                 location += 1
                 #out_arr.append("if")

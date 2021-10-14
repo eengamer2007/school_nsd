@@ -1,5 +1,7 @@
 if 1
+loop
 1
+end
 else
 2
 end

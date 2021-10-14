@@ -104,6 +104,7 @@ def if_pass(statment, if_arr, else_arr, indent, indent_back = 0):
     location += 1
     for i in range(length):
         rect(BLOCK_WIDTH, location, indent, indent_back=indent_back, indent_front=usewidth)
+        rect(BLOCK_WIDTH, location, indent, indent_back=indent_back+usewidth)
         try:
             canvas.create_text(
                 BLOCK_OFFSET + indent * INDENT_SIZE + TEXT_OFFSET,
@@ -113,7 +114,6 @@ def if_pass(statment, if_arr, else_arr, indent, indent_back = 0):
             )
         except IndexError:
             pass
-        rect(BLOCK_WIDTH, location, indent, indent_back=indent_back+usewidth)
         try:
             canvas.create_text(
                 BLOCK_OFFSET + indent * INDENT_SIZE + TEXT_OFFSET + usewidth,
@@ -126,7 +126,7 @@ def if_pass(statment, if_arr, else_arr, indent, indent_back = 0):
         location += 1
     
 #drawing the blocks 
-def standart_pass(array, indent, indent_back = 0, last = None):
+def standart_pass(array, indent, indent_back = 0, indent_front = 0, last = None):
     global location
     array_len = get_array_len(array)
     canvas.create_line(
@@ -222,11 +222,11 @@ first_pass(parsed)
 #doesn't work
 def to_png():
     print("made picture")
-    canvas.postscript(file="nsd.ps")
-    os.system("gswin32 -sDevice=png16m -sOutputFile=nsd.png nsd.ps")
-
+    canvas.postscript(file="nsd.gs")
+    #why not work?: os.system("gswin32c -dNOPAUSE -sDEVICE=png16m -sOutputFile=nsd.png nsd.gs")
+    #also not work
     #from PIL import Image
-    #img = Image.open("nsd.ps")
+    #img = Image.open("nsd.gs")
     #img.save("nsd.png", "png")
 
 win.after(1000, to_png)
