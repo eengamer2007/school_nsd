@@ -145,6 +145,7 @@ def standart_pass(array, indent, indent_back = 0, last = None):
     else_skip = 0
     for i in array:
         if isinstance(i, list):
+            print(i)
             match i[0]:
                 case "loop": 
                     canvas.create_text(
@@ -154,7 +155,7 @@ def standart_pass(array, indent, indent_back = 0, last = None):
                         anchor=tk.NW
                     )
                     location += 1
-                    standart_pass(i[1:], indent + 1)
+                    standart_pass(i[1], indent + 1)
                 case "while": 
                     canvas.create_text(
                         BLOCK_OFFSET + indent * INDENT_SIZE + TEXT_OFFSET,
@@ -163,7 +164,7 @@ def standart_pass(array, indent, indent_back = 0, last = None):
                         anchor=tk.NW
                     )
                     location += 1
-                    standart_pass(i[2:], indent + 1)
+                    standart_pass(i[2], indent + 1)
                 case "for": 
                     canvas.create_text(
                         BLOCK_OFFSET + indent * INDENT_SIZE + TEXT_OFFSET,
@@ -184,12 +185,13 @@ def standart_pass(array, indent, indent_back = 0, last = None):
                         BLOCK_OFFSET + BLOCK_HEIGHT * (location + get_array_len(i))
                     )
                     location += 1
-                    standart_pass(i[2:], indent + 1, last="for")
+                    standart_pass(i[2], indent + 1, last="for")
                     location += 1
                 case "if":
                     if_pass(i[1], i[2], i[3], indent)
                     else_skip = 1
-                case _:
+                case x:
+                    print(x)
                     if not else_skip:
                         raise(KeyboardInterrupt)
         else:

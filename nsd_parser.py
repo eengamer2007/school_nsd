@@ -56,8 +56,7 @@ def nsd_parser_from_file(input_file):
     f.close()
     '''
 #   }
-    for i in parsed:
-        print(i)
+    print(parsed)
     return parsed
     #return ["hello", "hello", ["for", "a", ["while", "a", ["if", "a", ["hello","bye"],["bye"]], ["loop","cheese"], "cheese"], "hello", "hello"],["loop","cheese"]]
     #return commands_array
@@ -73,34 +72,39 @@ def nsd_pass(arr, out_arr):
         match arr[location].lower().split():
             case ["while", statement]:
                 location += 1
-                out_arr.append("while")
-                out_arr.append(statement)
-                out = nsd_pass(arr,[])
+                #out_arr.append("while")
+                #out_arr.append(statement)
+                out = nsd_pass(arr,["while", statement])
                 out_arr.append(out)
             case ["loop"]:
                 location += 1
-                out_arr.append("loop")
-                out = nsd_pass(arr,[])
+                #out_arr.append("loop")
+                out = nsd_pass(arr,["loop"])
                 out_arr.append(out)
-            case ["for", *statment]:
+            case ["for", *statement]:
                 location += 1
-                out_arr.append("for")
-                out_arr.append(statment)
-                out = nsd_pass(arr,[])
-                out_arr.append(out)
-            case ["if", *statement]:
-                location += 1
-                out_arr.append("if")
+                #out_arr.append("for")
+                #out_arr.append(statment)
                 stat_str = ""
                 for i in statement:
                     stat_str += i
-                out_arr.append(stat_str)
+                out = nsd_pass(arr,["for",stat_str])
+                out_arr.append(out)
+            case ["if", *statement]:
+                location += 1
+                #out_arr.append("if")
+                stat_str = ""
+                for i in statement:
+                    stat_str += i
+                #out_arr.append(stat_str)
+                if_arr = ["if", stat_str]
                 out = nsd_pass(arr,[])
                 print(out)
-                out_arr.append(out)
+                if_arr.append(out)
                 out = nsd_pass(arr,[])
                 print(out)
-                out_arr.append(out)
+                if_arr.append(out)
+                out_arr.append(if_arr)
                 last_if = 1
             case ["else"]:
                 location += 1
