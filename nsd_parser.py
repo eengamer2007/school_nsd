@@ -17,7 +17,7 @@ def nsd_parser_from_file(input_file):
     in_arr.append("program_end")
     f.close()
 
-    nsd_pass(in_arr,[])
+    print(nsd_pass(in_arr,[]))
 #   { 
     '''
     commands_array = []
@@ -62,7 +62,7 @@ def nsd_parser_from_file(input_file):
 def nsd_pass(arr, out_arr):
     i = 0
     while i < len(arr):
-        print("line: , ", i, arr[i])
+        print("line:", i,",", arr[i])
         match arr[i].lower().split():
             case ["while", statement]:
                 out_arr.append("while ")
@@ -84,7 +84,7 @@ def nsd_pass(arr, out_arr):
             case ["if", *statement]:
                 out_arr.append("if ")
                 out_arr.append(statement)
-                out = nsd_pass_if(i,arr)
+                out = nsd_pass_if(i,out_arr)
                 out_arr.append(out[0])
                 i += out[1]
             case ["else"]:
@@ -100,7 +100,8 @@ def nsd_pass(arr, out_arr):
 
 def nsd_pass_if(start, arr):
     i = start
-    while i < len(arr):
+    out_arr = []
+    while i < len(arr[start:]):
         print("line: , ", i, arr[i])
         match arr[i].lower().split():
             case ["while", statement]:
@@ -123,16 +124,21 @@ def nsd_pass_if(start, arr):
             case ["if", *statement]:
                 out_arr.append("if ")
                 out_arr.append(statement)
-                out = nsd_pass_if(i,arr)
+                out = nsd_pass(arr,i)
                 out_arr.append(out[0])
                 i += out[1]
             case ["else"]:
-                print("found else without if")
-                raise MemoryError
+                if_arr = out_arr
+                out_arr = []
             case ["end"]:
-                return (out_arr, i)
+                arr.append(if_arr)
+                arr.append(out_arr)
+                return (arr,i)
             case x:
                 print(x)
                 out_arr.append(arr[i])
         i += 1
-    return (out_arr,i)
+    arr.append(if_arr)
+    arr.append(out_arr)
+    print(arr,i)
+    return (arr,i)

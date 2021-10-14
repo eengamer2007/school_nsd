@@ -215,11 +215,12 @@ print(parsed)
 first_pass(parsed)
 
 #doesn't work
-'''
-canvas.postscript(file="nsd.eps")
-from PIL import Image
-img = Image.open("nsd.eps")
-img.save("nsd.png", "png")
-'''
+def to_png():
+    print("made picture")
+    canvas.postscript(file="nsd.ps")
+    from PIL import Image
+    img = Image.open("nsd.ps")
+    img.save("nsd.png", "png")
 
+win.after(10000, to_png)
 win.mainloop()
