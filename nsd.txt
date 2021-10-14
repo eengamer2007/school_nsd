@@ -1,19 +1,19 @@
-if a
-stuf
+if 1
+1
 else
-stuf
+2
 end
 
 loop 
-hello
+3
 end
 
-while a
-chees
+while 2
+4
 end
 
-for a
-for a
-hello
+for 3
+for 4
+5
 end
 end

@@ -142,6 +142,7 @@ def standart_pass(array, indent, indent_back = 0, last = None):
             BLOCK_OFFSET + (indent - 1) * INDENT_SIZE,
             BLOCK_OFFSET + BLOCK_HEIGHT * (array_len + location)
         )
+    else_skip = 0
     for i in array:
         if isinstance(i, list):
             match i[0]:
@@ -187,8 +188,10 @@ def standart_pass(array, indent, indent_back = 0, last = None):
                     location += 1
                 case "if":
                     if_pass(i[1], i[2], i[3], indent)
+                    else_skip = 1
                 case _:
-                    raise(KeyboardInterrupt)
+                    if not else_skip:
+                        raise(KeyboardInterrupt)
         else:
             rect(BLOCK_WIDTH,location,indent, indent_back=indent_back)
             canvas.create_text(
